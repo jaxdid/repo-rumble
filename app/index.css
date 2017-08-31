@@ -109,3 +109,15 @@ a {
 .button:active {
   transform: translateY(1px);
 }
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error {
+  font-size: 92px;
+  font-family: 'Press Start 2P', cursive;
+  margin: 0.65em 0 0.25em 0;
+}
