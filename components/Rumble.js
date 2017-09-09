@@ -1,5 +1,6 @@
 const React = require('react')
 const PropTypes = require('prop-types')
+const { Link } = require('react-router-dom')
 
 function PlayerPreview (props) {
   return (
@@ -14,7 +15,7 @@ function PlayerPreview (props) {
       </div>
       <button
         className="reset"
-        onClick={props.onReset.bind(null, id)}
+        onClick={props.onReset.bind(null, props.id)}
       >
         reset
       </button>
@@ -84,6 +85,7 @@ class Rumble extends React.Component {
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleReset = this.handleReset.bind(this)
   }
 
   handleSubmit (id, username) {
@@ -95,9 +97,21 @@ class Rumble extends React.Component {
     })
   }
 
+  handleReset (id) {
+    this.setState(function () {
+      const newState = {}
+      newState[`${id}Name`] = ''
+      newState[`${id}Avatar`] = null
+      return newState
+    })
+  }
+
   render () {
+    const { url } = this.props.match
     const playerOneName = this.state.playerOneName
     const playerTwoName = this.state.playerTwoName
+    const playerOneAvatar = this.state.playerOneAvatar
+    const playerTwoAvatar = this.state.playerTwoAvatar
     
     return (
       <div>
@@ -109,6 +123,16 @@ class Rumble extends React.Component {
               onSubmit={this.handleSubmit}
             />
           }
+          
+          {playerOneAvatar !== null &&
+            <PlayerPreview
+              avatar={playerOneAvatar}
+              username={playerOneName}
+              onReset={this.handleReset}
+              id="playerOne"
+            />
+          }
+          
           {!playerTwoName &&
             <PlayerInput
               id="playerTwo"
@@ -116,7 +140,28 @@ class Rumble extends React.Component {
               onSubmit={this.handleSubmit}
             />
           }
+
+          {playerTwoAvatar !== null &&
+            <PlayerPreview
+              avatar={playerTwoAvatar}
+              username={playerTwoName}
+              onReset={this.handleReset}
+              id="playerTwo"
+            />
+          }
         </div>
+
+        {playerOneAvatar && playerTwoAvatar &&
+          <Link
+            className="button"
+            to={{
+              pathname: `${url}/results`,
+              search: `?playerOneName=${playerOneName}&playerTwoName=${playerTwoName}`
+            }}
+          >
+            Rumble!
+          </Link>
+        }
       </div>
     )
   }
