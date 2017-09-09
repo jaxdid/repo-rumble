@@ -23,6 +23,13 @@ function PlayerPreview (props) {
   )
 }
 
+PlayerPreview.propTypes = {
+  avatar: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  onReset: PropTypes.func.isRequired
+}
+
 class PlayerInput extends React.Component {
   constructor (props) {
     super(props)
@@ -72,6 +79,12 @@ class PlayerInput extends React.Component {
       </form>
     )
   }
+}
+
+PlayerInput.propTypes = {
+  id: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 class Rumble extends React.Component {
@@ -165,19 +178,6 @@ class Rumble extends React.Component {
       </div>
     )
   }
-}
-
-PlayerPreview.propTypes = {
-  avatar: PropTypes.string.isRequired,
-  username: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  onReset: PropTypes.func.isRequired
-}
-
-PlayerInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired
 }
 
 module.exports = Rumble
