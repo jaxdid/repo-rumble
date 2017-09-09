@@ -3,6 +3,7 @@ const Nav = require('./Nav')
 const Home = require('./Home')
 const Rumble = require('./Rumble')
 const Popular = require('./Popular')
+const Results = require('./Results')
 const ReactRouter = require('react-router-dom');
 const { BrowserRouter: Router, Route, Switch } = ReactRouter
 
@@ -14,7 +15,8 @@ class App extends React.Component {
           <Nav />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/rumble" component={Rumble} />
+            <Route exact path="/rumble" component={Rumble} />
+            <Route path="/rumble/results" component={Results} />
             <Route path="/popular" component={Popular} />
             <Route render={() => {
               return (
