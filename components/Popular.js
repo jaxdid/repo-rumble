@@ -90,6 +90,10 @@ class Popular extends React.Component {
           repos
         })
       })
+
+    api.rumble(['jaxdid', 'alainlemaire']).then(result => {
+      console.log('rumble test: ', result)
+    })
   }
 
   render () {
