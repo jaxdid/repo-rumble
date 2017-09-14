@@ -1,6 +1,24 @@
 const React = require('react')
+const { Link } = require('react-router-dom')
 const queryString = require('query-string')
+const PropTypes = require('prop-types')
 const api = require('../utils/api')
+
+function Player (props) {
+  return (
+    <div>
+      <h1 className="label">{props.label}</h1>
+      <h3 style={{ textAlign: 'center' }}>{props.score}</h3>
+      {/* {JSON.stringify(props.profile)} */}
+    </div>
+  )
+}
+
+Player.propTypes = {
+  label: PropTypes.string.isRequired,
+  profile: PropTypes.object.isRequired,
+  score: PropTypes.number.isRequired
+}
 
 class Results extends React.Component {
   constructor (props) {
@@ -43,8 +61,28 @@ class Results extends React.Component {
       )
     }
 
+    if (error) {
+      return (
+        <div>
+          <h4>{error}</h4>
+          <Link to="/rumble">reset</Link>
+        </div>
+      )
+    }
+
     return (
-      <div>Results</div>
+      <div className="row">
+        <Player
+          label="Winner"
+          profile={winner.profile}
+          score={winner.score}
+        />
+        <Player
+          label="Loser"
+          profile={loser.profile}
+          score={loser.score}
+        />
+      </div>
     )
   }
 }
