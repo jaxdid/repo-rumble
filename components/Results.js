@@ -3,13 +3,36 @@ const { Link } = require('react-router-dom')
 const queryString = require('query-string')
 const PropTypes = require('prop-types')
 const api = require('../utils/api')
+const PlayerPreview = require('./PlayerPreview')
+
+function Profile ({ info }) {
+  return (
+    <PlayerPreview avatar={info.avatar_url} username={info.login}>
+      <ul>
+        {info.name && <li>{info.name}</li>}
+        {info.location && <li>{info.location}</li>}
+        {info.company && <li>{info.company}</li>}
+        {}
+        {}
+        <li>Followers: {info.followers}</li>
+        <li>Following: {info.following}</li>
+        <li>Public Repos: {info.public_repos}</li>
+        {info.blog && <li><a href={info.blog}>{info.blog}</a></li>}
+      </ul>
+    </PlayerPreview>
+  )
+}
+
+Profile.propTypes = {
+  info: PropTypes.object.isRequired
+}
 
 function Player (props) {
   return (
-    <div>
-      <h1 className="label">{props.label}</h1>
-      <h3 style={{ textAlign: 'center' }}>{props.score}</h3>
-      {/* {JSON.stringify(props.profile)} */}
+    <div className="column">
+      <label>{props.label}</label>
+      <h3 style={{ textAlign: 'center' }}>Score: {props.score}</h3>
+      <Profile info={props.profile} />
     </div>
   )
 }
@@ -57,7 +80,7 @@ class Results extends React.Component {
 
     if (loading === true) {
       return (
-        <p>Loading</p> 
+        <p>Loading...</p> 
       )
     }
 

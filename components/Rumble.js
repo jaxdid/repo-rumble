@@ -114,9 +114,14 @@ class Rumble extends React.Component {
             <PlayerPreview
               avatar={playerOneAvatar}
               username={playerOneName}
-              onReset={this.handleReset}
-              id="playerOne"
-            />
+            >
+              <button
+                className="reset"
+                onClick={this.handleReset.bind(null, 'playerOne')}
+              >
+                reset
+              </button>
+            </PlayerPreview>
           }
           
           {!playerTwoName &&
@@ -131,9 +136,14 @@ class Rumble extends React.Component {
             <PlayerPreview
               avatar={playerTwoAvatar}
               username={playerTwoName}
-              onReset={this.handleReset}
-              id="playerTwo"
-            />
+            >
+              <button
+                className="reset"
+                onClick={this.handleReset.bind(null, 'playerTwo')}
+              >
+                reset
+              </button>
+            </PlayerPreview>
           }
         </div>
 
