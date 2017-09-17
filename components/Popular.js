@@ -1,6 +1,7 @@
 const React = require('react')
 const PropTypes = require('prop-types')
 const api = require('../utils/api')
+const Loading = require('./Loading')
 
 const LanguageSelector = ({ selectedLanguage, onSelect }) => {
   const languages = [
@@ -100,7 +101,7 @@ class Popular extends React.Component {
         onSelect={this.selectLanguage}
       />
       {!this.state.repos
-        ? <p>LOADING ...</p>
+        ? <Loading message="Fetching" />
         : <RepoGrid repos={this.state.repos} />
       }
     </div>

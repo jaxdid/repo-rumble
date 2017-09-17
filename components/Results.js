@@ -4,6 +4,7 @@ const queryString = require('query-string')
 const PropTypes = require('prop-types')
 const api = require('../utils/api')
 const PlayerPreview = require('./PlayerPreview')
+const Loading = require('./Loading')
 
 function Profile ({ info }) {
   return (
@@ -12,8 +13,6 @@ function Profile ({ info }) {
         {info.name && <li>{info.name}</li>}
         {info.location && <li>{info.location}</li>}
         {info.company && <li>{info.company}</li>}
-        {}
-        {}
         <li>Followers: {info.followers}</li>
         <li>Following: {info.following}</li>
         <li>Public Repos: {info.public_repos}</li>
@@ -80,7 +79,7 @@ class Results extends React.Component {
 
     if (loading === true) {
       return (
-        <p>Loading...</p> 
+        <Loading message="Rumbling" animationSpeed={50} /> 
       )
     }
 
