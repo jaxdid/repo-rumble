@@ -16,11 +16,7 @@ class PlayerInput extends React.Component {
 
   handleChange (event) {
     const value = event.target.value
-    this.setState(function () {
-      return {
-        username: value
-      }
-    })
+    this.setState(() => ({ username: value }))
   }
 
   handleSubmit (event) {
@@ -29,23 +25,26 @@ class PlayerInput extends React.Component {
   }
 
   render () {
+    const { username } = this.state
+    const { label } = this.props
+
     return (
       <form className="column" onSubmit={this.handleSubmit}>
         <label className="header" htmlFor="username">
-          {this.props.label}
+          {label}
         </label>
         <input
           id="username"
           type="text"
           placeholder="github username"
           autoComplete="off"
-          value={this.state.username}
+          value={username}
           onChange={this.handleChange}
         />
         <button
           className="button"
           type="submit"
-          disabled={!this.state.username}
+          disabled={!username}
         >
           READY
         </button>
@@ -75,29 +74,27 @@ class Rumble extends React.Component {
   }
 
   handleSubmit (id, username) {
-    this.setState(() => {
-      const newState = {}
-      newState[`${id}Name`] = username
-      newState[`${id}Avatar`] = `https://github.com/${username}.png?size=200`
-      return newState
-    })
+    this.setState(() => ({
+      [`${id}Name`]: username,
+      [`${id}Avatar`]: `https://github.com/${username}.png?size=200`
+    }))
   }
 
   handleReset (id) {
-    this.setState(() => {
-      const newState = {}
-      newState[`${id}Name`] = ''
-      newState[`${id}Avatar`] = null
-      return newState
-    })
+    this.setState(() => ({
+      [`${id}Name`]: '',
+      [`${id}Avatar`]: null
+    }))
   }
 
   render () {
     const { url } = this.props.match
-    const playerOneName = this.state.playerOneName
-    const playerTwoName = this.state.playerTwoName
-    const playerOneAvatar = this.state.playerOneAvatar
-    const playerTwoAvatar = this.state.playerTwoAvatar
+    const {
+      playerOneName,
+      playerTwoName,
+      playerOneAvatar,
+      playerTwoAvatar
+    } = this.state
     
     return (
       <div>
@@ -117,7 +114,7 @@ class Rumble extends React.Component {
             >
               <button
                 className="reset"
-                onClick={this.handleReset.bind(null, 'playerOne')}
+                onClick={() => this.handleReset('playerOne')}
               >
                 reset
               </button>
@@ -139,7 +136,7 @@ class Rumble extends React.Component {
             >
               <button
                 className="reset"
-                onClick={this.handleReset.bind(null, 'playerTwo')}
+                onClick={() => this.handleReset('playerTwo')}
               >
                 reset
               </button>

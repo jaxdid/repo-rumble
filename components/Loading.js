@@ -17,15 +17,14 @@ class Loading extends React.Component {
   }
   
   componentDidMount () {
-    const stopper = `${this.props.message}...`
+    const { message, animationSpeed } = this.props
+    const stopper = `${message}...`
 
     this.interval = window.setInterval(function () {
       this.state.message === stopper
-      ? this.setState({ message: this.props.message })
-      : this.setState(prev => {
-        return { message: `${prev.message}.` }
-      })
-    }.bind(this), this.props.animationSpeed)
+        ? this.setState({ message })
+        : this.setState(prev => ({ message: `${prev.message}.` }))
+    }.bind(this), animationSpeed)
   }
 
   componentWillUnmount () {
