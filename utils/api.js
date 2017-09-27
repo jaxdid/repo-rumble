@@ -2,9 +2,7 @@ const axios = require('axios')
 
 function getProfile (username) {
   return axios.get(`https://api.github.com/users/${username}`)
-    .then(user => {
-      return user.data
-    })
+    .then(({ data }) => data)
 }
 
 function getRepos (username) {
@@ -12,9 +10,7 @@ function getRepos (username) {
 }
 
 function getStarCount ({ data }) {
-  return data.reduce((count, repo) => {
-    return count + repo.stargazers_count
-  }, 0)
+  return data.reduce((count, { stargazers_count}) => count + stargazers_count, 0)
 }
 
 function calculateScore ({ followers }, repos) {
@@ -27,37 +23,28 @@ function handleError (error) {
 }
 
 function getUserData (player) {
-  return axios.all([
+  return Promise.all([
     getProfile(player),
     getRepos(player)
-  ]).then(response => {
-    const profile = response[0]
-    const repos = response[1]
-
-    return {
-      profile,
-      score: calculateScore(profile, repos)
-    }
-  })
+  ]).then(([ profile, repos ]) => ({
+    profile,
+    score: calculateScore(profile, repos)
+  }))
 }
 
 function sortPlayers (players) {
-  return players.sort((playerOne, playerTwo) => {
-    return playerTwo.score - playerOne.score
-  })
+  return players.sort((playerOne, playerTwo) => playerTwo.score - playerOne.score)
 }
 
 module.exports = {
-  fetchPopularRepos: function (language) {
+  fetchPopularRepos (language) {
     const encodedUri = window.encodeURI(`https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`)
 
     return axios.get(encodedUri)
-      .then(response => {
-        return response.data.items
-      })
+      .then(({ data }) => data.items)
   },
-  rumble: function (players) {
-    return axios.all(players.map(getUserData))
+  rumble (players) {
+    return Promise.all(players.map(getUserData))
       .then(sortPlayers)
       .catch(handleError)
   }
